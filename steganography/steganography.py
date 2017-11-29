@@ -4,8 +4,16 @@ from __future__ import absolute_import, unicode_literals
 import sys
 from PIL import Image
 import random
+import hashlib
 
 DIST = 8
+
+def keyInput():
+    secretKey=raw_input("Secret Key : ")
+    print ("You have inputed "+"\""+secretKey+"\""+" as a Secret Key")
+    encryptedKey=hashlib.sha256()
+    encryptedKey.update(secretKey)
+    return encryptedKey.hexdigest()
 
 
 def normalize_pixel(r, g, b):
@@ -172,19 +180,26 @@ class Steganography(object):
 
 # Main program
 def main():
+    secretCode=keyInput()
+    secretCodeLength=len(secretCode)
     if len(sys.argv) == 5 and sys.argv[1] == '-e':
         # encode
         print("Start Encode")
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
-        text = sys.argv[4]
+        text = secretCode+sys.argv[4]
         Steganography.encode(input_image_path, output_image_path, text)
         print("Finish:{}".format(output_image_path))
         return
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
         input_image_path = sys.argv[2]
-        print(Steganography.decode(input_image_path))
+        result=Steganography.decode(input_image_path)
+        leakSecretCode=result[0:secretCodeLength]
+        if(secretCode==leakSecretCode):
+            print result[secretCodeLength:]
+        else:
+            print "You are not permited!!"
         return
     print_help_text()
 
