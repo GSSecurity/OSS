@@ -22,7 +22,9 @@ GIF, BMP.
 
 ### 입력_사진
 
-![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman.jpg?raw=true){.align-center}
+{<div style="text-align:center;">}
+  ![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman.jpg?raw=true)
+{</div>}
 
 ### 출력_사진
 
