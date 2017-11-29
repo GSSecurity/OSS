@@ -196,8 +196,10 @@ def main():
         input_image_path = sys.argv[2]
         result=Steganography.decode(input_image_path)
         leakSecretCode=result[0:secretCodeLength]
-        print leakSecretCode
-        print result
+        if(secretCode==leakSecretCode):
+            print result[secretCodeLength:]
+        else:
+            print "You are not permited!!"
         return
     print_help_text()
 
