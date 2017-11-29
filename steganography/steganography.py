@@ -172,6 +172,8 @@ class Steganography(object):
 
 # Main program
 def main():
+    secretKey=input("Secret Key : ")
+    print ("You have inputed "+"\""+secretKey+"\""+" as a Secret Key")
     if len(sys.argv) == 5 and sys.argv[1] == '-e':
         # encode
         print("Start Encode")
