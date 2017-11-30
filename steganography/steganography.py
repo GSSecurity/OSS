@@ -180,25 +180,12 @@ class Steganography(object):
 
 # Main program
 def main():
-    available_list = ['jpg', 'gif', 'png', 'bmp']
+    available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
     signature = sys.argv[2].split('.')[1]
 
-    # method 1
-    check = len(available_list)
-    for extension in available_list:
-        if extension != signature.lower():
-            check -= 1
-    if check == 0:
+    if not  signature.lower() in available_list:
         print signature + " is not supported!!"
         return
-    
-    # method 2
-    if signature.lower() != available_list[0]:
-        if signature.lower() != available_list[1]:
-            if signature.lower() != available_list[2]:
-                if signature.lower() != available_list[3]:
-                    print signature + " is not supported!!"
-                    return
     
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
