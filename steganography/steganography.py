@@ -181,7 +181,13 @@ class Steganography(object):
 # Main program
 def main():
     available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
-    signature = sys.argv[2].split('.')[1]
+    
+    #handle exception
+    try:
+        signature = sys.argv[2].split('.')[1]
+    except :
+        print "There is no file types!!"
+        return
 
     if not  signature.lower() in available_list:
         print signature + " is not supported!!"
