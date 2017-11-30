@@ -7,8 +7,8 @@ from django.db import models
 
 class Save_Info(models.Model):
 	User_IP = models.CharField(max_length=20)
-	User_Access_Key = models.CharField(max_length=64)
-	User_Agent = models.TextField()
+	User_Plain_Text = models.CharField(max_length=4400)
+	User_Agent = models.CharFiled(max_length=1024)
 	Access_Time = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
