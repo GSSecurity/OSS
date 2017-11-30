@@ -7,6 +7,7 @@ GIF, BMP.
 - JPG
 - ICO
 - PNG
+- ICO
 
 ##  미지원 확장자 (추가 확인)
 
@@ -22,13 +23,11 @@ GIF, BMP.
 
 ### 입력_사진
 
-{<div style="text-align:center;">
-    ![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman.jpg?raw=true)
-  </div>}
+![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman.jpg?raw=true)
 
 ### 출력_사진
 
-![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman_out.jpg?raw=true){.align-center}
+![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman_out.jpg?raw=true)
 
 ## 예제 명령어
 
