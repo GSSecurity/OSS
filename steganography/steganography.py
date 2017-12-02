@@ -212,7 +212,9 @@ def main():
             return
         else:
             Steganography.encode(input_image_path, output_image_path, text)
-            print("Finish:{}".format(output_image_path))
+            print("Finish : {}".format(output_image_path))
+            print("Input Image Size : {}".format(os.path.getsize(input_image_path)))
+            print("Output Image size : {}".format(os.path.getsize(output_image_path)))
         return
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
