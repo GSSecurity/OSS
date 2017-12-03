@@ -84,7 +84,7 @@ def normalize(input_path, output_path):
 ##### Functions about hide_text() #####
 
 def _modify(i):
-	print "i" , i
+	# print "i" , i
 	if i >= 128:
 		for x in xrange(DIST + 1):
 			if i % DIST == 1:
@@ -123,7 +123,6 @@ def hide_text(output_path, hide_info):
 	_base = 0
 
 	# print to_hex(text)
-
 	for _ in to_hex(text):
 		write_param.append(int(_, 16) + _base)
 		_base += 16
@@ -147,6 +146,7 @@ def hide_text(output_path, hide_info):
 
 
 ##### Functions about read_text() #####
+
 def to_str(s):
 	return s.decode("hex")
 
@@ -197,6 +197,7 @@ class Steganography(object):
 
 # Main program
 def main():
+
 	available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
 
 	#handle exception with no extension
@@ -216,19 +217,23 @@ def main():
 	checkSum = "0"
 	checkSumLength = len(checkSum)
 
+	# when encode image
+	# steganography -e input_image_path output_image_path hide_text
 	if len(sys.argv) == 5 and sys.argv[1] == '-e':
-		# encode
+
 		input_image_path = sys.argv[2]
 		output_image_path = sys.argv[3]
-		text = secretCode+sys.argv[4]#+checkSum
-		"""
-		checkStr = Steganography.decode(input_image_path)
-		
-		if(checkSum == checkStr[-checkSumLength:]):
-			print "Already encoded!!"
-			return
-		else:
-		"""
+		text = sys.argv[4] + secretCode #+checkSum
+
+		# error!!
+		# checkStr = Steganography.decode(input_image_path)
+
+		# checkStr = "0simpletest"
+		# if checkSum == checkStr[:checkSumLength]:
+		# 	print "Already encoded!!"
+		# 	return
+
+
 		print("Start Encode : {}".format(input_image_path))
 		Steganography.encode(input_image_path, output_image_path, text)
 		print("Finish Encode : {}".format(output_image_path))
@@ -237,13 +242,17 @@ def main():
 		#the end of else(Line 215)
 		return
 
+	# when decode image
+	# steganography -d output_image_path
 	if len(sys.argv) == 3 and sys.argv[1] == '-d':
 		# decode
 		input_image_path = sys.argv[2]
 		result = Steganography.decode(input_image_path)
-		leakSecretCode = result[0:secretCodeLength]
-		if(secretCode == leakSecretCode):
-			print "Your secret message was \"%s\"" % result[secretCodeLength:]#-checkSumLength]
+		print result
+		leakSecretCode = result[-secretCodeLength:]
+		print leakSecretCode , "......" , secretCode
+		if secretCode == leakSecretCode:
+			print "Your secret message was \"%s\"" % result[0: -secretCodeLength]#-checkSumLength]
 		else:
 			print "You are not permited!!"
 		return
