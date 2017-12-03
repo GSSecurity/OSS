@@ -5,6 +5,7 @@ import sys
 from PIL import Image
 import random
 import hashlib
+import os
 
 DIST = 8
 
@@ -182,15 +183,15 @@ class Steganography(object):
 def main():
     available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
     
-    #handle exception
+    #handle exception with no extension
     try:
         signature = sys.argv[2].split('.')[1]
     except :
-        print "There is no file types!!"
+        print "There is no extension!!"
         return
 
     if not  signature.lower() in available_list:
-        print signature + " is not supported!!"
+        print signature + " is not supported extension!!"
         return
     
     secretCode = keyInput()
@@ -201,20 +202,23 @@ def main():
 
     if len(sys.argv) == 5 and sys.argv[1] == '-e':
         # encode
-        print("Start Encode")
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
-        text = secretCode+sys.argv[4]+checkSum
+        text = secretCode+sys.argv[4]#+checkSum
+        """
         checkStr = Steganography.decode(input_image_path)
         
         if(checkSum == checkStr[-checkSumLength:]):
             print "Already encoded!!"
             return
         else:
-            Steganography.encode(input_image_path, output_image_path, text)
-            print("Finish : {}".format(output_image_path))
-            print("Input Image Size : %d" % os.path.getsize(input_image_path))
-            print("Output Image size : %d" % os.path.getsize(output_image_path))
+        """
+        print("Start Encode : {}".format(input_image_path))
+        Steganography.encode(input_image_path, output_image_path, text)
+        print("Finish Encode : {}".format(output_image_path))
+        print("Input Image Size : %d" % os.path.getsize(input_image_path))
+        print("Output Image size : %d" % os.path.getsize(output_image_path))
+        #the end of else(Line 215)
         return
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
@@ -222,7 +226,7 @@ def main():
         result=Steganography.decode(input_image_path)
         leakSecretCode=result[0:secretCodeLength]
         if(secretCode==leakSecretCode):
-            print result[secretCodeLength:-checkSumLength]
+            print "Your secret message was \"%s\"" % result[secretCodeLength:]#-checkSumLength]
         else:
             print "You are not permited!!"
         return

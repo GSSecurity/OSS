@@ -2,11 +2,10 @@
 
 ## 지원 확장자 (추가 확인)
 
-GIF, BMP.
-
 - JPG
-- ICO
+- GIF
 - PNG
+- BMP
 - ICO
 
 ##  미지원 확장자 (추가 확인)
