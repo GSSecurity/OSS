@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from steganography.steganography import Steganography
+
+from lib.steganography import Steganography
 
 print "-*- hide text to image -*-"
-path = "/Users/ryuminsu/Documents/GitHub/steganography/sample/Stallman.jpg"
-output_path = "/Users/ryuminsu/Documents/GitHub/steganography/sample/Stallman_out.jpg"
+path = "/Users/ryuminsu/Documents/GitHub/SteganographyApp/sample/Stallman.jpg"
+output_path = "/Users/ryuminsu/Documents/GitHub/SteganographyApp/sample/Stallman_out.jpg"
 text = 'Hello, this is testing code'
 Steganography.encode(path, output_path, text)
 

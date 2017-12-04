@@ -8,7 +8,7 @@
 }
 
 .hero {
-  background:url(../../static/img/city_bg.jpg) no-repeat center;
+  background:url(../img/city_bg.jpg) no-repeat center;
   background-size:cover;
   border:none;
 }
@@ -67,7 +67,7 @@ div.iphone-mockup {
   border:1px solid #444;
   background-color:#aaa;
   overflow:hidden;
-  background:url(../../static/img/screen-content-iphone-6.jpg);
+  background:url(../img/screen-content-iphone-6.jpg);
   background-size:cover;
   background-position:center;
 }
