@@ -18,9 +18,9 @@ def index(request):
     # Upload Handler
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
-        form.user_ip = request.META['REMOTE_ADDR']
-        form.user_agent = request.META['HTTP_USER_AGENT']
-        form.save()
+        # form.user_ip = request.META['REMOTE_ADDR']
+        # form.user_agent = request.META['HTTP_USER_AGENT']
+        # form.save()
         if form.is_valid():
             files = form.save()
             print("UPLOADED : ", files.input_img.path) # file path
