@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class SteganographyConfig(AppConfig):
-    name = 'steganography'
+class SteganoConfig(AppConfig):
+    name = 'Stegano'

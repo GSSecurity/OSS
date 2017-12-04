@@ -1,5 +1,5 @@
 """
-WSGI config for SteganoWEB project.
+WSGI config for GSSStegano project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "SteganoWEB.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "GSSStegano.settings")
 
 application = get_wsgi_application()

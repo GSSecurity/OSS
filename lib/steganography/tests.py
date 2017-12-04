@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from steganography.steganography import Steganography
+
+from lib.steganography import Steganography
 
 
 def test_stegano():
