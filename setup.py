@@ -17,7 +17,7 @@ setup(
     packages=['steganography'],
     package_dir={'steganography': 'steganography'},
     include_package_data=True,
-    install_requires=["pillow"],
+    install_requires=["pillow", 'django'],
     license='MIT License',
     zip_safe=False,
     keywords=["Implementation Hide Text In Image with encryption", "stegano", "steganography",
