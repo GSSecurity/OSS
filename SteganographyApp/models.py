@@ -16,3 +16,8 @@ class SaveInfo(models.Model):
 
     def __str__(self):
         return self.user_ip
+
+
+class UploadFileModel(models.Model):
+    title = models.TextField(default='')
+    file = models.FileField(null=True)
