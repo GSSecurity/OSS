@@ -180,37 +180,41 @@ class Steganography(object):
 
 # Main program
 def main():
-    available_list = ['jpg', 'gif', 'png', 'bmp']
-    signature = sys.argv[2].split('.')[1]
+    available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
+    
+    #handle exception
+    try:
+        signature = sys.argv[2].split('.')[1]
+    except :
+        print "There is no file types!!"
+        return
 
-    # method 1
-    check = len(available_list)
-    for extension in available_list:
-        if extension != signature.lower():
-            check -= 1
-    if check == 0:
+    if not  signature.lower() in available_list:
         print signature + " is not supported!!"
         return
     
-    # method 2
-    if signature.lower() != available_list[0]:
-        if signature.lower() != available_list[1]:
-            if signature.lower() != available_list[2]:
-                if signature.lower() != available_list[3]:
-                    print signature + " is not supported!!"
-                    return
-    
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
+
+    checkSum = "0"
+    checkSumLength = len(checkSum)
 
     if len(sys.argv) == 5 and sys.argv[1] == '-e':
         # encode
         print("Start Encode")
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
-        text = secretCode+sys.argv[4]
-        Steganography.encode(input_image_path, output_image_path, text)
-        print("Finish:{}".format(output_image_path))
+        text = secretCode+sys.argv[4]+checkSum
+        checkStr = Steganography.decode(input_image_path)
+        
+        if(checkSum == checkStr[-checkSumLength:]):
+            print "Already encoded!!"
+            return
+        else:
+            Steganography.encode(input_image_path, output_image_path, text)
+            print("Finish : {}".format(output_image_path))
+            print("Input Image Size : {}".format(os.path.getsize(input_image_path)))
+            print("Output Image size : {}".format(os.path.getsize(output_image_path)))
         return
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
@@ -218,12 +222,11 @@ def main():
         result=Steganography.decode(input_image_path)
         leakSecretCode=result[0:secretCodeLength]
         if(secretCode==leakSecretCode):
-            print result[secretCodeLength:]
+            print result[secretCodeLength:-checkSumLength]
         else:
             print "You are not permited!!"
         return
     print_help_text()
-
 
 def print_help_text():
     print("ERROR: not steganography command")
