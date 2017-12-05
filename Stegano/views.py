@@ -10,6 +10,10 @@ from django.template import loader
 from Stegano.forms import UploadFileForm
 from Stegano.models import SaveInfo
 
+from steganography.steganography import Steganography
+from django.utils.encoding import smart_str
+import os
+
 
 def index(request):
     context = {}
@@ -27,17 +31,35 @@ def index(request):
             print("KEY : ", form.data['input_key']) # encryption key
             print("MSG : ", form.data['input_msg']) # plain text
 
-            # 1. 위 3개 인자로 스테가노그래피 처리를 해서
-            # 2. output파일을 static/img 폴더에 저장하고
-            # 3. URL 계산을 해서
+            inputpath = files.input_img.path
+            filename = inputpath.split("/")[-1]
+            text = form.data['input_msg']
+            outputpath = ("/".join(inputpath.split("/")[0:-2])) + "/static/img/" + filename
+            
+            try :
+                Steganography.encode(inputpath, outputpath, text)
+                print ("SAVED : ", outputpath)
+            except:
+                print "Encode Error"
+                return HttpResponseRedirect('/')
 
-
-            # 성공하면 반환하기 전에 아래 두줄 실행
-            #form.success = True
-            #form.save()
-
-            # 4. HttpResponseRedirect 경로를 3의 URL 주소로 던지면 됨
-            return HttpResponseRedirect('/')
+            try:
+                outputfile = open(outputpath, "r")
+                form.success = True
+                form.save()
+            except:
+                print "File Open Error"
+                return HttpResponseRedirect('/')
+            
+            try:
+                response = HttpResponse(outputfile.read())
+                response['Content_type']= 'application/force-download'
+                response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
+                response['Content-Length'] = os.path.getsize(outputpath)
+                return response
+            except:
+                print "HttpResponse Error"
+                return HttpResponseRedirect('/')    
         else:
             print(form.errors)
             print(form.error_class)
