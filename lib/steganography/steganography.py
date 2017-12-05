@@ -10,9 +10,7 @@ import os
 
 DIST = 8
 
-def keyInput():
-    secretKey = raw_input("Secret Key : ")
-    print("You have inputed \"%s\" as a Secret Key" % secretKey)
+def keyInput(secretKey):
     encryptedKey = hashlib.sha256()
     encryptedKey.update(secretKey)
     return encryptedKey.hexdigest()
@@ -196,15 +194,17 @@ def main():
     if not  signature.lower() in available_list:
         print(signature + " is not supported extension!!")
         return
-      
-    secretCode = keyInput()
-    secretCodeLength = len(secretCode)
-    
-    if len(sys.argv) == 5 and sys.argv[1] == '-e':
+
+    if len(sys.argv) == 6 and sys.argv[1] == '-e':
         # encode
+
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
         text = secretCode + sys.argv[4]
+
+        secretCode = keyInput(sys.argv[5])
+        secretCodeLength = len(secretCode)
+
         imgCh = Image.open(input_image_path)
         checkPixel=imgCh.getpixel((1 ,1))     
         if(checkPixel == (33,0,0)):
@@ -218,9 +218,13 @@ def main():
             #the end of else(Line 215)
         return
     
-    if len(sys.argv) == 3 and sys.argv[1] == '-d':
+    if len(sys.argv) == 4 and sys.argv[1] == '-d':
         # decode
         input_image_path = sys.argv[2]
+
+        secretCode = keyInput(sys.argv[3])
+        secretCodeLength = len(secretCode)
+
         result = Steganography.decode(input_image_path)
         leakSecretCode = result[0:secretCodeLength]
         if(secretCode == leakSecretCode):
@@ -234,10 +238,10 @@ def print_help_text():
     print("ERROR: not SteganographyApp command")
     print("--------------------------------")
     print("# encode example: hide text to image")
-    print("SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.'")
+    print("SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.' 'key'")
     print("")
     print("# decode example: read secret text from image")
-    print("SteganographyApp -d /tmp/image/output.jpg")
+    print("SteganographyApp -d /tmp/image/output.jpg 'key:if not match:no result'")
     print("")
 
 if __name__ == "__main__":
