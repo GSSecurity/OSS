@@ -13,15 +13,12 @@ DIST = 8
 # this is secret key, just for you
 # you have to input same secret key, when encode & decode image
 # if it incorrect, you cannot decode image
-def keyInput():
+def keyInput(secretKey):
+    encryptedKey = hashlib.sha256()
+    encryptedKey.update(secretKey)
+    return encryptedKey.hexdigest()
 
-	secretKey = raw_input("Secret Key : ")
-	print("You have inputed \"%s\" as a Secret Key" % secretKey)
-	encryptedKey = hashlib.sha256()
-	encryptedKey.update(secretKey)
-
-	return encryptedKey.hexdigest()
-
+  
 ### ENCODE
 ##### Functions about normalize() #####
 
@@ -34,6 +31,7 @@ def _normalize(i):
 
 	return i
 
+
 # is it normalize condition?
 def is_modify_pixel(r, g, b):
 	"""
@@ -45,6 +43,7 @@ def is_modify_pixel(r, g, b):
 	# check if r & g & b is multiples of 8(DIST) + 1
 	# this is a characteristic of the modified pixel
 	return r % DIST == g % DIST == b % DIST == 1
+
 
 # if the modify condition is true, then do a normalize
 def normalize_pixel(r, g, b):
@@ -65,6 +64,7 @@ def normalize_pixel(r, g, b):
 			b = _normalize(b)
 
 	return r, g, b
+
 
 # modify a pixel to insert text
 def normalize(input_path, output_path):
@@ -108,6 +108,7 @@ def _modify(i):
 			i += 1
 	raise ValueError
 
+  
 def modify_pixel(r, g, b):
 	"""
 	pixel color modify
@@ -118,8 +119,10 @@ def modify_pixel(r, g, b):
 	"""
 	return map(_modify, [r, g, b])
 
+
 def to_hex(s):
 	return s.encode("hex")
+
 
 # the process of hiding text in an image
 def hide_text(output_path, hide_info):
@@ -161,6 +164,7 @@ def hide_text(output_path, hide_info):
 
 def to_str(s):
 	return s.decode("hex")
+
 
 # finding hidden text
 def read_text(path):
@@ -211,77 +215,80 @@ class Steganography(object):
 
 # Main program
 def main():
-	available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
+    available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
 
-	# check file extension
-	# handle exception with no extension
-	try:
-		signature = sys.argv[2].split('.')[1]
-	except :
-		print("There is no extension!!")
-		return
+    # check file extension
+	  # handle exception with no extension
+    try:
+        signature = sys.argv[2].split('.')[1]
+    except :
+        print("There is no extension!!")
+        return
 
-	if not signature.lower() in available_list:
-		print(signature + " is not supported extension!!")
-		return
+    if not  signature.lower() in available_list:
+        print(signature + " is not supported extension!!")
+        return
 
-	secretCode = keyInput()
-	secretCodeLength = len(secretCode)
+        # when encode image
+	      # steganography -e input_image_path output_image_path hide_text secretKey
+	      if len(sys.argv) == 6 and sys.argv[1] == '-e':
+        # encode
 
-	# when encode image
-	# steganography -e input_image_path output_image_path hide_text
-	if len(sys.argv) == 5 and sys.argv[1] == '-e':
+        input_image_path = sys.argv[2]
+        output_image_path = sys.argv[3]
+        text = secretCode + sys.argv[4]
 
-		input_image_path = sys.argv[2]
-		output_image_path = sys.argv[3]
-		text = secretCode + sys.argv[4]
+        secretCode = keyInput(sys.argv[5])
+        secretCodeLength = len(secretCode)
 
-		imgCh = Image.open(input_image_path)
+        imgCh = Image.open(input_image_path)
+        
+        # checksum
+		    ### @devilzCough modify....
+		    # if it has problem please correct code
+		    checkPixel = imgCh.getpixel((0, 0))
+		    if checkPixel == (33, 0, 0):
+            print "Already encoded!!"
+        else:
+            print("Start Encode : {}".format(input_image_path))
+            Steganography.encode(input_image_path, output_image_path, text)
+            print("Finish Encode : {}".format(output_image_path))
+            print("Input Image Size : %d" % os.path.getsize(input_image_path))
+            print("Output Image size : %d" % os.path.getsize(output_image_path))
+        return
+      
+    # when decode image
+	  # steganography -d output_image_path secretKey
+    if len(sys.argv) == 4 and sys.argv[1] == '-d':
+        # decode
+        input_image_path = sys.argv[2]
 
-		# checksum
-		### @devilzCough modify....
-		# if it has problem please correct code
-		checkPixel = imgCh.getpixel((0, 0))
-		if checkPixel == (33, 0, 0):
-			print("Already encoded!!")
-		###
-		else:
-			print("Start Encode : {}".format(input_image_path))
-			Steganography.encode(input_image_path, output_image_path, text)
-			print("Finish Encode : {}".format(output_image_path))
-			print("Input Image Size : %d" % os.path.getsize(input_image_path))
-			print("Output Image size : %d" % os.path.getsize(output_image_path))
-			#the end of else(Line 215)
-		return
+        secretCode = keyInput(sys.argv[3])
+        secretCodeLength = len(secretCode)
 
-	# when decode image
-	# steganography -d output_image_path
-	if len(sys.argv) == 3 and sys.argv[1] == '-d':
-		# decode
-		input_image_path = sys.argv[2]
-		result = Steganography.decode(input_image_path)
+        result = Steganography.decode(input_image_path)
 
-		# check Secret Key
-		leakSecretCode = result[0:secretCodeLength]
-		if secretCode == leakSecretCode:
-			print("Your secret message was \"%s\"" % result[secretCodeLength:])
-		else:
-			print("You are not permited!!")
-		return
-
-	# when the execution format is wrong
-	print_help_text()
+        # check Secret Key
+        leakSecretCode = result[0:secretCodeLength]
+        if(secretCode == leakSecretCode):
+            print("Your secret message was \"%s\"" % result[secretCodeLength:])
+        else:
+            print("You are not permited!!")
+        return
+        
+        # when the execution format is wrong
+        print_help_text()
 
 # help messages
 def print_help_text():
-	print("ERROR: not SteganographyApp command")
-	print("--------------------------------")
-	print("# encode example: hide text to image")
-	print("SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.'")
-	print("")
-	print("# decode example: read secret text from image")
-	print("SteganographyApp -d /tmp/image/output.jpg")
-	print("")
+    print("ERROR: not SteganographyApp command")
+    print("--------------------------------")
+    print("# encode example: hide text to image")
+    print("SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.' 'key'")
+    print("")
+    print("# decode example: read secret text from image")
+    print("SteganographyApp -d /tmp/image/output.jpg 'key:if not match:no result'")
+    print("")
 
 if __name__ == "__main__":
 	main()
