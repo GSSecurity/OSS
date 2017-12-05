@@ -8,6 +8,7 @@ import random
 import hashlib
 import os
 
+
 DIST = 8
 
 def keyInput():
@@ -124,6 +125,8 @@ def hide_text(path, text):
                 r, g, b = modify_pixel(r, g, b)
                 img.putpixel((x, y), (r, g, b))
             counter += 1
+    img.putpixel((1,1),33)
+   
 
     # save
     img.save(path, "PNG", optimize=True)
@@ -195,18 +198,19 @@ def main():
         print signature + " is not supported extension!!"
         return
     
-    f = file(sys.argv[2],'rb')
-    s = f.read(50)
     
+   
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
-
+    
     if len(sys.argv) == 5 and sys.argv[1] == '-e':
         # encode
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
         text = secretCode+sys.argv[4]
-        if(str(s[37:41]) == "IDAT"):
+        imgCh = Image.open(input_image_path)
+        checkPixel=imgCh.getpixel((1 ,1))     
+        if(checkPixel == (33,0,0)):
             print "Already encoded!!"
         else:
             print("Start Encode : {}".format(input_image_path))
@@ -214,7 +218,7 @@ def main():
             print("Finish Encode : {}".format(output_image_path))
             print("Input Image Size : %d" % os.path.getsize(input_image_path))
             print("Output Image size : %d" % os.path.getsize(output_image_path))
-        #the end of else(Line 215)
+            #the end of else(Line 215)
         return
     
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
