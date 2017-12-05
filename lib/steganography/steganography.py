@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
@@ -230,23 +231,23 @@ def main():
         return
 
     # when encode image
-	# steganography -e input_image_path output_image_path hide_text secretKey
-	if len(sys.argv) == 6 and sys.argv[1] == '-e':
+    # steganography -e input_image_path output_image_path hide_text secretKey
+    if len(sys.argv) == 6 and sys.argv[1] == '-e':
     	# encode
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
+        secretCode = keyInput(sys.argv[5])
         text = secretCode + sys.argv[4]
 
-        secretCode = keyInput(sys.argv[5])
         secretCodeLength = len(secretCode)
 
         imgCh = Image.open(input_image_path)
         
         # checksum
-		### @devilzCough modify....
-		# if it has problem please correct code
-		checkPixel = imgCh.getpixel((0, 0))
-		if checkPixel == (33, 0, 0):
+	### @devilzCough modify....
+	# if it has problem please correct code
+	checkPixel = imgCh.getpixel((0, 0))
+	if checkPixel == (33, 0, 0):
             print "Already encoded!!"
         else:
             print("Start Encode : {}".format(input_image_path))
@@ -275,8 +276,8 @@ def main():
             print("You are not permited!!")
         return
         
-        # when the execution format is wrong
-        print_help_text()
+    # when the execution format is wrong
+    print_help_text()
 
 # help messages
 def print_help_text():
@@ -290,4 +291,4 @@ def print_help_text():
     print("")
 
 if __name__ == "__main__":
-	main()
+    main()
