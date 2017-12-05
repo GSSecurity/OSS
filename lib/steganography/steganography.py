@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
@@ -199,7 +198,6 @@ def main():
         return
     
     
-   
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
     
