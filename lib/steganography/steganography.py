@@ -81,7 +81,7 @@ def normalize(input_path, output_path):
 	size = img.size
 	new_img = Image.new('RGB', size)
 
-	for y in range(img.size[1]):
+	for y in range(1, img.size[1]):
 		for x in range(img.size[0]):
 			# get each r, g, b value
 			r, g, b = img.getpixel((x, y))
@@ -141,7 +141,7 @@ def hide_text(output_path, hide_info):
 	# hide hex-text to image
 	img = Image.open(output_path)
 	counter = 0
-	for y in range(img.size[1]):
+	for y in range(1, img.size[1]):
 		for x in range(img.size[0]):
 			if counter in write_param:
 				r, g, b = img.getpixel((x, y))
@@ -149,7 +149,7 @@ def hide_text(output_path, hide_info):
 				img.putpixel((x, y), (r, g, b))
 			counter += 1
 
-	img.putpixel((1, 1), 33)
+	img.putpixel((0, 0), 33)
 
 	# save
 	img.save(output_path, "PNG", optimize = True)
@@ -172,7 +172,7 @@ def read_text(path):
 	img = Image.open(path)
 	counter = 0
 	result = []
-	for y in range(img.size[1]):
+	for y in range(1, img.size[1]):
 		for x in range(img.size[0]):
 			r, g, b = img.getpixel((x, y))
 			if is_modify_pixel(r, g, b):
@@ -239,8 +239,9 @@ def main():
 		imgCh = Image.open(input_image_path)
 
 		# checksum
-		### i think this code has problem...
-		checkPixel = imgCh.getpixel((1, 1))
+		### @devilzCough modify....
+		# if it has problem please correct code
+		checkPixel = imgCh.getpixel((0, 0))
 		if checkPixel == (33, 0, 0):
 			print("Already encoded!!")
 		###
