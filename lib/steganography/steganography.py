@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
@@ -194,32 +195,28 @@ def main():
         print signature + " is not supported extension!!"
         return
     
+    f = file(sys.argv[2],'rb')
+    s = f.read(50)
+    
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
-
-    checkSum = "0"
-    checkSumLength = len(checkSum)
 
     if len(sys.argv) == 5 and sys.argv[1] == '-e':
         # encode
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
-        text = secretCode+sys.argv[4]#+checkSum
-        """
-        checkStr = Steganography.decode(input_image_path)
-        
-        if(checkSum == checkStr[-checkSumLength:]):
+        text = secretCode+sys.argv[4]
+        if(str(s[37:41]) == "IDAT"):
             print "Already encoded!!"
-            return
         else:
-        """
-        print("Start Encode : {}".format(input_image_path))
-        Steganography.encode(input_image_path, output_image_path, text)
-        print("Finish Encode : {}".format(output_image_path))
-        print("Input Image Size : %d" % os.path.getsize(input_image_path))
-        print("Output Image size : %d" % os.path.getsize(output_image_path))
+            print("Start Encode : {}".format(input_image_path))
+            Steganography.encode(input_image_path, output_image_path, text)
+            print("Finish Encode : {}".format(output_image_path))
+            print("Input Image Size : %d" % os.path.getsize(input_image_path))
+            print("Output Image size : %d" % os.path.getsize(output_image_path))
         #the end of else(Line 215)
         return
+    
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
         input_image_path = sys.argv[2]
