@@ -218,7 +218,7 @@ def main():
     available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
 
     # check file extension
-	  # handle exception with no extension
+	# handle exception with no extension
     try:
         signature = sys.argv[2].split('.')[1]
     except :
@@ -229,11 +229,10 @@ def main():
         print(signature + " is not supported extension!!")
         return
 
-        # when encode image
-	      # steganography -e input_image_path output_image_path hide_text secretKey
-	      if len(sys.argv) == 6 and sys.argv[1] == '-e':
-        # encode
-
+    # when encode image
+	# steganography -e input_image_path output_image_path hide_text secretKey
+	if len(sys.argv) == 6 and sys.argv[1] == '-e':
+    	# encode
         input_image_path = sys.argv[2]
         output_image_path = sys.argv[3]
         text = secretCode + sys.argv[4]
@@ -244,10 +243,10 @@ def main():
         imgCh = Image.open(input_image_path)
         
         # checksum
-		    ### @devilzCough modify....
-		    # if it has problem please correct code
-		    checkPixel = imgCh.getpixel((0, 0))
-		    if checkPixel == (33, 0, 0):
+		### @devilzCough modify....
+		# if it has problem please correct code
+		checkPixel = imgCh.getpixel((0, 0))
+		if checkPixel == (33, 0, 0):
             print "Already encoded!!"
         else:
             print("Start Encode : {}".format(input_image_path))
@@ -258,7 +257,7 @@ def main():
         return
       
     # when decode image
-	  # steganography -d output_image_path secretKey
+	# steganography -d output_image_path secretKey
     if len(sys.argv) == 4 and sys.argv[1] == '-d':
         # decode
         input_image_path = sys.argv[2]
