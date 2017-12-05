@@ -238,10 +238,10 @@ def print_help_text():
     print("ERROR: not SteganographyApp command")
     print("--------------------------------")
     print("# encode example: hide text to image")
-    print("SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.'")
+    print("SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.' 'key")
     print("")
     print("# decode example: read secret text from image")
-    print("SteganographyApp -d /tmp/image/output.jpg")
+    print("SteganographyApp -d /tmp/image/output.jpg 'key:if not match:no result'")
     print("")
 
 if __name__ == "__main__":
