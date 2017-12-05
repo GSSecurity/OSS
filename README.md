@@ -33,9 +33,11 @@
 ``` Python
 # encode example: 사진에 문자열을 숨김
 >>>steganography -e 입력_사진_경로 출력_사진_경로 문자열 암호키
+>>>steganography -e input.png output.png 'HelloWorld' 'GSS'
 
 # decode example: 사진으로 부터 숨겨진 문자열을 읽음
 >>>steganography -d 출력_사진_경로 암호키(일치하지 않으면 디코딩 안됨)
+>>>steganography -d output.png 'GSS'
 숨겨 놓은 "문자열" 출력
 ```
 
