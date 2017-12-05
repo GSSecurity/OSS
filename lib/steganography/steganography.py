@@ -10,9 +10,9 @@ import os
 DIST = 8
 
 def keyInput():
-    secretKey=raw_input("Secret Key : ")
-    print ("You have inputed "+"\""+secretKey+"\""+" as a Secret Key")
-    encryptedKey=hashlib.sha256()
+    secretKey = raw_input("Secret Key : ")
+    print("You have inputed \"%s\" as a Secret Key" % secretKey)
+    encryptedKey = hashlib.sha256()
     encryptedKey.update(secretKey)
     return encryptedKey.hexdigest()
 
@@ -182,18 +182,18 @@ class Steganography(object):
 # Main program
 def main():
     available_list = ['jpg', 'gif', 'png', 'bmp', 'ico']
-    
+
     #handle exception with no extension
     try:
         signature = sys.argv[2].split('.')[1]
     except :
-        print "There is no extension!!"
+        print("There is no extension!!")
         return
 
     if not  signature.lower() in available_list:
-        print signature + " is not supported extension!!"
+        print(signature + " is not supported extension!!")
         return
-    
+
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
 
@@ -207,7 +207,7 @@ def main():
         text = secretCode+sys.argv[4]#+checkSum
         """
         checkStr = Steganography.decode(input_image_path)
-        
+
         if(checkSum == checkStr[-checkSumLength:]):
             print "Already encoded!!"
             return
@@ -223,12 +223,12 @@ def main():
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
         input_image_path = sys.argv[2]
-        result=Steganography.decode(input_image_path)
-        leakSecretCode=result[0:secretCodeLength]
-        if(secretCode==leakSecretCode):
-            print "Your secret message was \"%s\"" % result[secretCodeLength:]#-checkSumLength]
+        result = Steganography.decode(input_image_path)
+        leakSecretCode = result[0:secretCodeLength]
+        if(secretCode == leakSecretCode):
+            print("Your secret message was \"%s\"" % result[secretCodeLength:])#-checkSumLength]
         else:
-            print "You are not permited!!"
+            print("You are not permited!!")
         return
     print_help_text()
 
