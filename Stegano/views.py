@@ -36,7 +36,7 @@ def index(request):
             inputpath = files.input_img.path
             filename = inputpath.split("/")[-1]
             text = form.data['input_msg']
-            outputpath = "/var/www/OSS/static/img/enc_" + filename #temp path (absolute)
+            outputpath = ("/".join(inputpath.split("/")[0:-2])) + "/static/img/enc_" + filename
             print ("SAVED : ", outputpath)
             try :
                 Steganography.encode(inputpath, outputpath, text)
@@ -45,7 +45,8 @@ def index(request):
                 # form.save()
                 form.success = True
                 form.save()
-                return HttpResponseRedirect("/static/img/enc_" + filename)
+                return HttpResponse("<a href='/static/img/enc_" + filename + "'>download</a>")
+                #return HttpResponseRedirect("/static/img/enc_" + filename)
             except :
                 # 4. HttpResponseRedirect 경로를 3의 URL 주소로 던지면 됨
                 print ("encode error")
