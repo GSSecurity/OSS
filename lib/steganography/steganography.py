@@ -10,9 +10,9 @@ import os
 DIST = 8
 
 def keyInput():
-    secretKey = raw_input("Secret Key : ")
-    print("You have inputed \"%s\" as a Secret Key" % secretKey)
-    encryptedKey = hashlib.sha256()
+    secretKey=raw_input("Secret Key : ")
+    print ("You have inputed "+"\""+secretKey+"\""+" as a Secret Key")
+    encryptedKey=hashlib.sha256()
     encryptedKey.update(secretKey)
     return encryptedKey.hexdigest()
 
@@ -187,16 +187,16 @@ def main():
     try:
         signature = sys.argv[2].split('.')[1]
     except :
-        print("There is no extension!!")
+        print "There is no extension!!"
         return
 
     if not  signature.lower() in available_list:
-        print(signature + " is not supported extension!!")
+        print signature + " is not supported extension!!"
         return
-    
+
     f = file(sys.argv[2],'rb')
     s = f.read(50)
-    
+
     secretCode = keyInput()
     secretCodeLength = len(secretCode)
 
@@ -206,7 +206,7 @@ def main():
         output_image_path = sys.argv[3]
         text = secretCode+sys.argv[4]
         if(str(s[37:41]) == "IDAT"):
-            print("Already encoded!!")
+            print "Already encoded!!"
         else:
             print("Start Encode : {}".format(input_image_path))
             Steganography.encode(input_image_path, output_image_path, text)
@@ -215,7 +215,7 @@ def main():
             print("Output Image size : %d" % os.path.getsize(output_image_path))
         #the end of else(Line 215)
         return
-    
+
     if len(sys.argv) == 3 and sys.argv[1] == '-d':
         # decode
         input_image_path = sys.argv[2]
