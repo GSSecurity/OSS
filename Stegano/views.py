@@ -11,7 +11,7 @@ from django.template import loader
 
 from Stegano.forms import *
 from Stegano.models import SaveInfo
-from steganography.steganography import Steganography
+from lib.steganography.steganography import Steganography, keyInput
 from django.utils.encoding import smart_str
 import os
 
@@ -38,15 +38,16 @@ def index(request):
                 filename = inputpath.split("/")[-1]
                 text = form.data['input_msg']
                 outputpath = ("/".join(inputpath.split("/")[0:-2])) + "/static/img/" + filename
-                
+
                 try :
-                    Steganography.encode(inputpath, outputpath, text)
+                    Steganography.encode(inputpath, outputpath, keyInput(form.data['input_key'])+text)
                     print ("SAVED : ", outputpath)
                 except:
                     print "Encode Error"
                     return HttpResponseRedirect('/')
 
                 try:
+                    # noinspection PyTypeChecker
                     outputfile = open(outputpath, "r")
                     form.success = True
                     form.save()
@@ -58,6 +59,7 @@ def index(request):
                     response = HttpResponse(outputfile.read())
                     response['Content_type']= 'application/force-download'
                     response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
+                    response['X-Sendfile'] = smart_str(filename)
                     response['Content-Length'] = os.path.getsize(outputpath)
                     return response
                 except:
@@ -69,21 +71,34 @@ def index(request):
                 inputpath = files.input_img.path
                 filename = inputpath.split("/")[-1].split(".")[0] + ".txt"
                 try:
+                    secretCode = keyInput(form.data['input_key'])
+                    secretCodeLength = len(secretCode)
+
                     text = Steganography.decode(inputpath)
+
+                    # check Secret Key
+                    leakSecretCode = text[0:secretCodeLength]
+                    if secretCode == leakSecretCode:
+                        print("Your secret message was \"%s\"" % text[secretCodeLength:])
+                        return HttpResponseRedirect('/?flavour=%s' % text[secretCodeLength:])
+                    else:
+                        print("You are not permited!!")
+                        return HttpResponseRedirect('/?flavour=#')
                     print ("text : " + text)
                 except:
                     print("Not Encoding file")
                     return HttpResponse("/")
 
-                try:
-                    response = HttpResponse(text)
-                    response['Content_type']= 'application/force-download'
-                    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
-                    response['Content-Length'] = len(filename)
-                    return response
-                except:
-                    print "HttpResponse Error"
-                    return HttpResponseRedirect('/')
+                # try:
+                #     # response = HttpResponse(text)
+                #     # response['Content_type']= 'application/force-download'
+                #     # response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
+                #     # response['Content-Length'] = len(filename)
+                #     # return response
+                #
+                # except:
+                #     print "HttpResponse Error"
+                #     return HttpResponseRedirect('/')
         else:
             print(form.errors)
             print(form.error_class)
