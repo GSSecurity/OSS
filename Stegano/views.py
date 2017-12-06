@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 import json
+import sys
+sys.path.append('../lib/steganography/steganography')
 
 from django.http import HttpResponse, HttpResponseRedirect
 # Create your views here.
@@ -9,7 +11,6 @@ from django.template import loader
 
 from Stegano.forms import *
 from Stegano.models import SaveInfo
-
 from steganography.steganography import Steganography
 from django.utils.encoding import smart_str
 import os
