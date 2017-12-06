@@ -65,4 +65,8 @@ print secret_text
 
 ### 암호화 페이지
 
+![input](http://cfile10.uf.tistory.com/image/99F557335A27F4B2222D76)
+
 ### 복호화 페이지
+
+![input](http://cfile30.uf.tistory.com/image/99F53D335A27F4B03986B0)
