@@ -227,8 +227,9 @@ def main():
         return
 
     if not signature.lower() in available_list:
-        print(signature + " is not supported extension!!")
-        return
+        if not signature.lower() in available_list:
+            print(signature + " is not supported extension!!")
+            return
 
     # when encode image
     # steganography -e input_image_path output_image_path hide_text secretKey
@@ -283,7 +284,7 @@ def print_help_text():
     print("--------------------------------")
     print("# encode example: hide text to image")
     print(
-    "SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.' 'key'")
+        "SteganographyApp -e /tmp/image/input.jpg /tmp/image/output.jpg 'The quick brown fox jumps over the lazy dog.' 'key'")
     print("")
     print("# decode example: read secret text from image")
     print("SteganographyApp -d /tmp/image/output.jpg 'key:if not match:no result'")
