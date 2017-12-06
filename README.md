@@ -2,6 +2,10 @@
 
 **라이센스:**  ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+## 분석 및 설명
+
+https://github.com/GSSecurity/OSS/wiki
+
 ## 지원 확장자
 
 - JPG
@@ -65,7 +69,7 @@ print secret_text
 
 ## 웹 페이지 화면
 
-http://gss.jaeil.wiki
+http://gss.jaeil.wiki or http://13.124.123.107
 
 ### 암호화 페이지
 
