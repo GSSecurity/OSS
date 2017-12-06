@@ -1,6 +1,8 @@
 # 암호화된 문자를 사진에 넣는 "steganography"
 
-## 지원 확장자 
+**라이센스:**  ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+## 지원 확장자
 
 - JPG
 - GIF
@@ -8,7 +10,7 @@
 - BMP
 - ICO
 
-##  미지원 확장자 
+## 미지원 확장자
 
 - PDF
 
@@ -17,8 +19,8 @@
 1. git clone을 통해 파일을 다운로드 받는다.
 2. OSS/Stegano 파일로 이동 후 , python manage.py runserver로 Django를 구동시킨다.
 3. 127.0.0.1:8000(Default 값)로 접속하여 암호화, 복호화 작업을 수행한다.
-   (Safari를 이용할경우 이미지이름.png.html의 형태로 받아지는 경우가 있습니다.)
-   
+   (Safari를 이용할경우 이미지이름.png.html의 형태로 받아지는 경우가 있습니다.)
+
 ## 예제 사진
 
 ### 입력_사진
@@ -29,9 +31,9 @@
 
 ![input](https://github.com/GSSecurity/steganography/blob/merryman/sample/Stallman_out.jpg?raw=true)
 
-## 예제 명령어
+## CLI 예제 명령어
 
-``` Python
+```python
 # encode example: 사진에 문자열을 숨김
 >>>steganography -e 입력_사진_경로 출력_사진_경로 문자열 암호키
 >>>steganography -e input.png output.png 'HelloWorld' 'GSS'
@@ -42,9 +44,9 @@
 숨겨 놓은 "문자열" 출력
 ```
 
-## 예제 코드
+## CLI 예제 코드
 
-``` python
+```python
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from steganography.steganography import Steganography
