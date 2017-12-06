@@ -1,6 +1,6 @@
 # 암호화된 문자를 사진에 넣는 "steganography"
 
-## 지원 확장자 (추가 확인)
+## 지원 확장자 
 
 - JPG
 - GIF
@@ -8,16 +8,17 @@
 - BMP
 - ICO
 
-##  미지원 확장자 (추가 확인)
+##  미지원 확장자 
 
 - PDF
 
 ## 설치법
 
-``` 
-추후에 어떤식으로 할지 결정
-```
-
+1. git clone을 통해 파일을 다운로드 받는다.
+2. OSS/Stegano 파일로 이동 후 , python manage.py runserver로 Django를 구동시킨다.
+3. 127.0.0.1:8000(Default 값)로 접속하여 암호화, 복호화 작업을 수행한다.
+   (Safari를 이용할경우 이미지이름.png.html의 형태로 받아지는 경우가 있습니다.)
+   
 ## 예제 사진
 
 ### 입력_사진
@@ -59,3 +60,9 @@ print "-*- read secret text from image -*-"
 secret_text = Steganograpy.decode(output_path)
 print secret_text
 ```
+
+## 웹 페이지 화면
+
+### 암호화 페이지
+
+### 복호화 페이지
