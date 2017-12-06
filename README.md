@@ -63,6 +63,8 @@ print secret_text
 
 ## 웹 페이지 화면
 
+http://gss.jaeil.wiki
+
 ### 암호화 페이지
 
 ![input](http://cfile10.uf.tistory.com/image/99F557335A27F4B2222D76)
